@@ -1,5 +1,5 @@
 <p align="center">
-<img src="src/images/footprint.jpg" alt="drawing" width="250" height="250" />
+<img src="src/images/footprint.png" alt="drawing" width="250" height="250" />
 </p>
 
 #  File Footprint Checker
