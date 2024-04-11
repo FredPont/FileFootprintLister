@@ -21,6 +21,7 @@ package fileutil
 import (
 	"encoding/csv"
 	"fmt"
+	"io/fs"
 	"log"
 	"os"
 	"path/filepath"
@@ -55,13 +56,8 @@ func ParseDir(dir string) {
 		if err != nil {
 			return err
 		}
-		fmt.Println(path)
-		if !fileInfo.IsDir() {
-			// compute file footprint
-			signature := calcMD5(path)
-			//fmt.Println("Visited:", path, " ", signature)
-			writeLine(writer, []string{signature, path})
-		}
+
+		startFootprintCalc(path, fileInfo, writer)
 
 		return nil
 	})
@@ -84,6 +80,15 @@ func writeLine(writer *csv.Writer, data []string) {
 	if err != nil {
 		fmt.Println(err)
 		return
+	}
+}
+
+func startFootprintCalc(path string, fileInfo fs.FileInfo, writer *csv.Writer) {
+	if !fileInfo.IsDir() {
+		// compute file footprint
+		signature := calcMD5(path)
+		//fmt.Println("Visited:", path, " ", signature)
+		writeLine(writer, []string{signature, path})
 	}
 }
 

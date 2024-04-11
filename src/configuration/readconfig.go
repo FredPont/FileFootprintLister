@@ -44,7 +44,7 @@ func ReadAllPath() []string {
 			return []string{}
 		}
 
-		// Append the value to allpath
+		// Append the value to allPath
 		allPath = append(allPath, line[0])
 	}
 

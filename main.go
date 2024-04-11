@@ -45,7 +45,7 @@ func main() {
 	header()
 	t0 := time.Now()
 	//args := parseARG()
-	//key()
+
 	allDirPath := conf.ReadAllPath()
 
 	// start a new goroutine that runs the spinner function
@@ -58,14 +58,14 @@ func main() {
 		fmt.Println(dp, " is analysed...")
 		fileutil.ParseDir(dp)
 		if time.Since(t_start) < time.Second {
-			time.Sleep(1 * time.Second)
+			time.Sleep(1 * time.Second) // sleep to enable file saving with date time prefix
 		}
 	}
 
 	close(stop) // closing the channel stop the goroutine
-	t1 := time.Now()
+
 	fmt.Println("\ndone !")
-	fmt.Println("Elapsed time : ", t1.Sub(t0))
+	fmt.Println("Elapsed time : ", time.Since(t0))
 }
 
 // parse arg of the command line and return the argument struct
@@ -75,14 +75,4 @@ func parseARG() Args {
 	flag.Parse()
 
 	return args
-}
-
-// string to rune conversion
-func strToRune(str string) rune {
-	arr := []rune{}
-	for _, runeValue := range str {
-		arr = append(arr, runeValue)
-	}
-	fmt.Println(arr[0])
-	return (arr[0])
 }
