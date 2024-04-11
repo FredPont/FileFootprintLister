@@ -18,3 +18,7 @@ File Footprint Checker is a software to compute recursively files footprints (md
 
  ## ScreenShots
 ![CLI](src/images/screenshot.png)
+
+826e8142e6baabe8af779f5f490cf5f5	test/file1.txt
+
+1c1c96fd2cf8330db0bfa936ce82f3b9	test2/file2.txt
