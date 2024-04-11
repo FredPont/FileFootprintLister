@@ -2,8 +2,8 @@
 <img src="src/images/footprint.png" alt="drawing" width="250" height="250" />
 </p>
 
-#  File Footprint Checker
-File Footprint Checker is a software to compute recursively files footprints (md5sum) of all files in a list of directories
+#  File Footprint Lister
+File Footprint Lister is a software to compute recursively files footprints (md5sum) of all files in a list of directories
 
 # Quick start
 - edit the config/path.csv file

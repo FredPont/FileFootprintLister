@@ -19,8 +19,8 @@
 package main
 
 import (
-	conf "FileFootprintChecker/src/configuration"
-	"FileFootprintChecker/src/fileutil"
+	conf "FileFootprintLister/src/configuration"
+	"FileFootprintLister/src/fileutil"
 	"flag"
 	"fmt"
 	"time"
@@ -33,10 +33,10 @@ type Args struct {
 // ###########################################
 func header() {
 	fmt.Println("")
-	fmt.Println("   ┌─────────────────────────────────────────┐") // unicode U+250C
-	fmt.Println("   │  FileFootprintChecker (c)Frederic PONT  │")
-	fmt.Println("   │    v20240511 - Free Software GNU GPL    │")
-	fmt.Println("   └─────────────────────────────────────────┘")
+	fmt.Println("   ┌────────────────────────────────────────┐") // unicode U+250C
+	fmt.Println("   │  FileFootprintLister (c)Frederic PONT  │")
+	fmt.Println("   │    v20240511 - Free Software GNU GPL   │")
+	fmt.Println("   └────────────────────────────────────────┘")
 	//fmt.Println("")
 }
 
