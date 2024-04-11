@@ -15,3 +15,6 @@ File Footprint Checker is a software to compute recursively files footprints (md
 - md5 sum calculation
 - TSV output with 2 columns signatures and path
 - statically compiled (written in Go), nothing to install 
+
+ ## ScreenShots
+![CLI](src/images/screenshot.png)
