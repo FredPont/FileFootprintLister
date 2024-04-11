@@ -19,7 +19,7 @@ File Footprint Lister is a software to compute recursively files footprints (md5
 # ScreenShots
 ![CLI](src/images/screenshot.png)
 
-Results (md5 - path):
+## Results (md5 - path):
 
 826e8142e6baabe8af779f5f490cf5f5	test/file1.txt
 
