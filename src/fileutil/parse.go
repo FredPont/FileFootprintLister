@@ -28,9 +28,13 @@ import (
 	"time"
 )
 
-func ParseDir(dir string) {
+type Args struct {
+	Algorithm string
+}
+
+func ParseDir(dir string, args Args) {
 	// Create a file for writing
-	outfile, err := os.Create("results/" + DatePrefix("output.tsv"))
+	outfile, err := os.Create("results/" + args.Algorithm + "_" + DatePrefix("output.tsv"))
 	if err != nil {
 		log.Println(err)
 	}
@@ -57,7 +61,7 @@ func ParseDir(dir string) {
 			return err
 		}
 
-		startFootprintCalc(path, fileInfo, writer)
+		startFootprintCalc(path, fileInfo, writer, args)
 
 		return nil
 	})
@@ -83,10 +87,16 @@ func writeLine(writer *csv.Writer, data []string) {
 	}
 }
 
-func startFootprintCalc(path string, fileInfo fs.FileInfo, writer *csv.Writer) {
+func startFootprintCalc(path string, fileInfo fs.FileInfo, writer *csv.Writer, args Args) {
 	if !fileInfo.IsDir() {
+		var signature string
 		// compute file footprint
-		signature := calcMD5(path)
+		if args.Algorithm == "sha256" {
+			signature = calcSHA256(path)
+		} else {
+			signature = calcMD5(path)
+		}
+
 		//fmt.Println("Visited:", path, " ", signature)
 		writeLine(writer, []string{signature, path})
 	}

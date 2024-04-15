@@ -8,11 +8,27 @@ File Footprint Lister is a software to compute recursively files footprints (md5
 # Quick start
 - edit the config/path.csv file
 - enter one directory path to scan, per line (no header in this table)
-- start the software
+- start the software in the FileFootprintLister directory
+```
+Usage :
+
+  -a string
+
+        algorithm to use. md5 or sha256 (default "md5")
+
+example :
+
+./ffpl-x86_64_linux.bin             # md5 sum computation 
+
+./ffpl-x86_64_linux.bin -a md5      # md5 sum computation
+
+./ffpl-x86_64_linux.bin -a sha256   # sha256 sum computation
+```
 
 # Key characteristics
 - unlimited number of directory path
 - md5 sum calculation
+- sha256 sum calculation
 - TSV output with 2 columns signatures and path
 - statically compiled (written in Go), nothing to install 
 

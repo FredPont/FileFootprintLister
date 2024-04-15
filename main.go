@@ -26,25 +26,12 @@ import (
 	"time"
 )
 
-type Args struct {
-	Algorithm string
-}
-
-// ###########################################
-func header() {
-	fmt.Println("")
-	fmt.Println("   ┌────────────────────────────────────────┐") // unicode U+250C
-	fmt.Println("   │  FileFootprintLister (c)Frederic PONT  │")
-	fmt.Println("   │    v20240511 - Free Software GNU GPL   │")
-	fmt.Println("   └────────────────────────────────────────┘")
-	//fmt.Println("")
-}
-
-// ###########################################
 func main() {
-	header()
+	fileutil.Title()
+
 	t0 := time.Now()
-	//args := parseARG()
+	args := parseARG()
+	fmt.Println(args)
 
 	allDirPath := conf.ReadAllPath()
 
@@ -56,7 +43,7 @@ func main() {
 	for _, dp := range allDirPath {
 		t_start := time.Now()
 		fmt.Println(dp, " is analysed...")
-		fileutil.ParseDir(dp)
+		fileutil.ParseDir(dp, args)
 		if time.Since(t_start) < time.Second {
 			time.Sleep(1 * time.Second) // sleep to enable file saving with date time prefix
 		}
@@ -69,10 +56,9 @@ func main() {
 }
 
 // parse arg of the command line and return the argument struct
-func parseARG() Args {
-	args := Args{}
-	flag.StringVar(&args.Algorithm, "a", "md5", "algorithm to use")
+func parseARG() fileutil.Args {
+	args := fileutil.Args{}
+	flag.StringVar(&args.Algorithm, "a", "md5", "algorithm to use. md5 or sha256")
 	flag.Parse()
-
 	return args
 }
