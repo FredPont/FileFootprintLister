@@ -24,7 +24,7 @@ func Title() {
 	fmt.Println("")
 	fmt.Println("   ┌────────────────────────────────────────┐") // unicode U+250C
 	fmt.Println("   │  FileFootprintLister (c)Frederic PONT  │")
-	fmt.Println("   │    v20240511 - Free Software GNU GPL   │")
+	fmt.Println("   │    v20240515 - Free Software GNU GPL   │")
 	fmt.Println("   └────────────────────────────────────────┘")
 	//fmt.Println("")
 }
