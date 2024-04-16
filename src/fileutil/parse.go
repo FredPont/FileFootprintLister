@@ -60,7 +60,7 @@ func ParseDir(dir string, args Args) {
 		if err != nil {
 			return err
 		}
-
+		// compute current file signature
 		startFootprintCalc(path, fileInfo, writer, args)
 
 		return nil
@@ -91,9 +91,10 @@ func startFootprintCalc(path string, fileInfo fs.FileInfo, writer *csv.Writer, a
 	if !fileInfo.IsDir() {
 		var signature string
 		// compute file footprint
-		if args.Algorithm == "sha256" {
+		switch args.Algorithm {
+		case "sha256":
 			signature = calcSHA256(path)
-		} else {
+		default:
 			signature = calcMD5(path)
 		}
 

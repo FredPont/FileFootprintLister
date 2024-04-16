@@ -43,6 +43,7 @@ func main() {
 	for _, dp := range allDirPath {
 		t_start := time.Now()
 		fmt.Println(dp, " is analysed...")
+		// start current directory analysis
 		fileutil.ParseDir(dp, args)
 		if time.Since(t_start) < time.Second {
 			time.Sleep(1 * time.Second) // sleep to enable file saving with date time prefix
