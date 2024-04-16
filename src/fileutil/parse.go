@@ -98,7 +98,7 @@ func startFootprintCalc(path string, fileInfo fs.FileInfo, writer *csv.Writer, a
 		}
 
 		//fmt.Println("Visited:", path, " ", signature)
-		writeLine(writer, []string{signature, path})
+		writeLine(writer, []string{signature, fileInfo.Name(), path})
 	}
 }
 

@@ -29,14 +29,14 @@ example :
 - unlimited number of directory path
 - md5 sum calculation
 - sha256 sum calculation
-- TSV output with 2 columns signatures and path
+- TSV output with 3 columns signatures, name and path
 - statically compiled (written in Go), nothing to install 
 
 # ScreenShots
 ![CLI](src/images/screenshot.png)
 
-## Results (md5 - path):
-
-826e8142e6baabe8af779f5f490cf5f5	test/file1.txt
-
-1c1c96fd2cf8330db0bfa936ce82f3b9	test2/file2.txt
+## Results (md5 - file name - path):
+```
+826e8142e6baabe8af779f5f490cf5f5        file1.txt       test/file1.txt
+1c1c96fd2cf8330db0bfa936ce82f3b9        file2.txt       test2/file2.txt
+```
