@@ -8,6 +8,8 @@ File Footprint Lister is a software to compute recursively files footprints (md5
 # Quick start
 - edit the config/path.csv file
 - enter one directory path to scan, per line (no header in this table)
+
+If the path contains spaces, commas... it can be necessary to quote the path : "my,path with, spaces" 
 - start the software in the FileFootprintLister directory
 ```
 Usage :
