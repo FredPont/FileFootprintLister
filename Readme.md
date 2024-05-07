@@ -36,9 +36,3 @@ example :
 
 # ScreenShots
 ![CLI](src/images/screenshot.png)
-
-## Results (md5 - file name - path):
-```
-826e8142e6baabe8af779f5f490cf5f5        file1.txt       test/file1.txt
-1c1c96fd2cf8330db0bfa936ce82f3b9        file2.txt       test2/file2.txt
-```
