@@ -26,6 +26,10 @@ example :
 
 ./ffpl-x86_64_linux.bin -a sha256   # sha256 sum computation
 ```
+- the result tables in TSV are in the result directory. The output table has 3 columns : 
+  - footprint
+  - file name
+  - file path
 
 # Key characteristics
 - unlimited number of directory path
