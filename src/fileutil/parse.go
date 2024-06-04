@@ -74,7 +74,7 @@ func ParseDir(dir string, args Args) {
 
 	// Check if there have been any errors during Write or Flush
 	if err := writer.Error(); err != nil {
-		panic(err) // Handle errors after flushing
+		fmt.Println(err) // Handle errors after flushing
 	}
 }
 
