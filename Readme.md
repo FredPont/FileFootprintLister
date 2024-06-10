@@ -3,7 +3,9 @@
 </p>
 
 #  File Footprint Lister
-File Footprint Lister is a software to compute recursively files footprints (md5sum, sha256) of all files in a list of directories
+File Footprint Lister is a software to compute recursively files footprints (md5sum, sha256) of all files in a list of directories.
+
+Lists can be compared using [CompareFootprintLists](https://github.com/FredPont/CompareFootprintLists)
 
 # Quick start
 - edit the config/path.csv file
