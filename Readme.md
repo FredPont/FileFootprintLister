@@ -28,7 +28,7 @@ Usage :
 
 example :
 
-./ffpl-x86_64_linux.bin             # md5 sum computation 
+./ffpl-x86_64_linux.bin             # md5 sum computation with 8 files processed in parallel by default
 
 ./ffpl-x86_64_linux.bin -n 14       # md5 sum computation with 14 files processed in parallel
 
