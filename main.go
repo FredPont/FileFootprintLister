@@ -20,7 +20,7 @@ package main
 
 import (
 	conf "FileFootprintLister/src/configuration"
-	"FileFootprintLister/src/fileutil"
+	fileutil "FileFootprintLister/src/fileutil"
 	"flag"
 	"fmt"
 	"time"

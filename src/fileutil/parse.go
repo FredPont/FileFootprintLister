@@ -19,6 +19,7 @@
 package fileutil
 
 import (
+	conf "FileFootprintLister/src/configuration"
 	"encoding/csv"
 	"fmt"
 	"io/fs"
@@ -39,7 +40,9 @@ type Args struct {
 
 func ParseDir(dir string, args Args) {
 	var wg sync.WaitGroup
-	ch := make(chan struct{}, 14)
+	maxGoroutines := conf.Config.NbCPU
+
+	ch := make(chan struct{}, maxGoroutines)
 
 	// Create a file for writing
 	outfile, err := os.Create("results/" + args.Algorithm + "_" + DatePrefix("output.tsv"))
