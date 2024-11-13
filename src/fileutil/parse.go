@@ -25,7 +25,12 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"sync"
 	"time"
+)
+
+var (
+	mutex sync.Mutex
 )
 
 type Args struct {
@@ -33,16 +38,15 @@ type Args struct {
 }
 
 func ParseDir(dir string, args Args) {
+	var wg sync.WaitGroup
+	ch := make(chan struct{}, 14)
+
 	// Create a file for writing
 	outfile, err := os.Create("results/" + args.Algorithm + "_" + DatePrefix("output.tsv"))
 	if err != nil {
 		log.Println(err)
 	}
 	defer outfile.Close()
-
-	// Create a CSV writer with a tab delimiter for TSV format
-	writer := csv.NewWriter(outfile)
-	writer.Comma = '\t' // Set the delimiter to tab
 
 	err = filepath.WalkDir(dir, func(path string, info os.DirEntry, err error) error {
 		if err != nil {
@@ -60,8 +64,10 @@ func ParseDir(dir string, args Args) {
 		if err != nil {
 			return err
 		}
-		// compute current file signature
-		startFootprintCalc(path, fileInfo, writer, args)
+
+		wg.Add(1) // Increment the WaitGroup counter
+		ch <- struct{}{}
+		go ParallelFootprintCalc(path, fileInfo, outfile, args, &wg, ch)
 
 		return nil
 	})
@@ -69,25 +75,16 @@ func ParseDir(dir string, args Args) {
 	if err != nil {
 		fmt.Println("Error:", err)
 	}
-	// Flush writes any buffered data to the underlying io.Writer
-	writer.Flush()
 
-	// Check if there have been any errors during Write or Flush
-	if err := writer.Error(); err != nil {
-		fmt.Println(err) // Handle errors after flushing
-	}
+	wg.Wait() // Wait for all goroutines to finish
+
 }
 
-func writeLine(writer *csv.Writer, data []string) {
-	// Write the []string as a row to the file
-	err := writer.Write(data)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-}
-
-func startFootprintCalc(path string, fileInfo fs.FileInfo, writer *csv.Writer, args Args) {
+func ParallelFootprintCalc(path string, fileInfo fs.FileInfo, outfile *os.File, args Args, wg *sync.WaitGroup, ch chan struct{}) {
+	defer func() {
+		<-ch // get the token back to free up a slot
+		wg.Done()
+	}()
 	if !fileInfo.IsDir() {
 		var signature string
 		// compute file footprint
@@ -98,9 +95,27 @@ func startFootprintCalc(path string, fileInfo fs.FileInfo, writer *csv.Writer, a
 			signature = calcMD5(path)
 		}
 
-		//fmt.Println("Visited:", path, " ", signature)
-		writeLine(writer, []string{signature, fileInfo.Name(), path})
+		writeToCSV(outfile, []string{signature, fileInfo.Name(), path})
 	}
+}
+
+// writeToCSV write data to file concurrently
+func writeToCSV(file *os.File, data []string) {
+
+	// Lock the mutex to ensure exclusive access to the file
+	mutex.Lock()
+	defer mutex.Unlock()
+
+	writer := csv.NewWriter(file)
+	writer.Comma = '\t' // Set the delimiter to tab
+	defer writer.Flush()
+
+	// Write the data to the CSV file
+	if err := writer.Write(data); err != nil {
+		fmt.Printf("Error writing to CSV: %v\n", err)
+		return
+	}
+
 }
 
 func GetFileAndPath(fullPath string) (string, string) {
