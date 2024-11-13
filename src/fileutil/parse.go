@@ -34,6 +34,7 @@ var (
 	mutex sync.Mutex
 )
 
+// Args holds the argument of the software (md5, sha256)
 type Args struct {
 	Algorithm string
 }
