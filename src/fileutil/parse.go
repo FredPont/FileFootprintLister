@@ -41,7 +41,7 @@ type Args struct {
 func ParseDir(dir string, args Args) {
 	var wg sync.WaitGroup
 	maxGoroutines := conf.Config.NbCPU
-
+	// create a channel with the max number of job allowed
 	ch := make(chan struct{}, maxGoroutines)
 
 	// Create a file for writing
