@@ -60,6 +60,7 @@ func main() {
 func parseARG() fileutil.Args {
 	args := fileutil.Args{}
 	flag.StringVar(&args.Algorithm, "a", "md5", "algorithm to use. md5 or sha256")
+	flag.IntVar(&args.NbCPU, "n", 8, "number of CPUs for parallel file processing")
 	flag.Parse()
 	return args
 }

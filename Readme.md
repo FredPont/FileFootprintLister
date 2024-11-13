@@ -20,9 +20,15 @@ Usage :
 
         algorithm to use. md5 or sha256 (default "md5")
 
+  -n int
+
+    	number of CPUs for parallel file processing (default 8)
+
 example :
 
 ./ffpl-x86_64_linux.bin             # md5 sum computation 
+
+./ffpl-x86_64_linux.bin -n 14       # md5 sum computation with 14 files processed in parallel
 
 ./ffpl-x86_64_linux.bin -a md5      # md5 sum computation
 
@@ -35,6 +41,7 @@ example :
 
 # Key characteristics
 - unlimited number of directory path
+- parallel file processing
 - md5 sum calculation
 - sha256 sum calculation
 - TSV output with 3 columns signatures, name and path

@@ -2,36 +2,10 @@ package conf
 
 import (
 	"encoding/csv"
-	"encoding/json"
 	"fmt"
 	"io"
 	"os"
 )
-
-type Conf struct {
-	NbCPU int `json:"nbCPU"`
-}
-
-// ReadConf read json conf file
-func ReadConf() Conf {
-	fname := "config/conf.json"
-	var cs Conf
-	fp, err := os.Open(fname)
-	if err != nil {
-		fmt.Println(err)
-	}
-	defer fp.Close()
-	bytes, err := io.ReadAll(fp)
-	if err != nil {
-		fmt.Println(err)
-	}
-	err = json.Unmarshal(bytes, &cs)
-	if err != nil {
-		fmt.Println(err)
-	}
-	//fmt.Println(cs)
-	return cs
-}
 
 func ReadAllPath() []string {
 	// Open the CSV file

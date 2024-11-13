@@ -19,7 +19,6 @@
 package fileutil
 
 import (
-	conf "FileFootprintLister/src/configuration"
 	"encoding/csv"
 	"fmt"
 	"io/fs"
@@ -37,11 +36,12 @@ var (
 // Args holds the argument of the software (md5, sha256)
 type Args struct {
 	Algorithm string
+	NbCPU     int
 }
 
 func ParseDir(dir string, args Args) {
 	var wg sync.WaitGroup
-	maxGoroutines := conf.Config.NbCPU
+	maxGoroutines := args.NbCPU
 	// create a channel with the max number of job allowed
 	ch := make(chan struct{}, maxGoroutines)
 
