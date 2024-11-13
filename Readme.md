@@ -22,7 +22,8 @@ Usage :
 
   -n int
 
-    	number of CPUs for parallel file processing (default 8). The optimal number of CPU depends on the CPU and disk speed. 
+    	number of CPUs for parallel file processing (default 8).
+      The optimal number of CPU depends on the CPU and disk speed. 
       Top speed is generally obtained with 8-16 CPUs.
 
 example :
