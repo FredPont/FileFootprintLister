@@ -49,5 +49,10 @@ example :
 - TSV output with 3 columns signatures, name and path
 - statically compiled (written in Go), nothing to install 
 
+# Benchmark
+![CLI](src/benchmark/benchmark.png)
+Speed : 7.4 files/sec - 9.2 GB/min
+
 # ScreenShots
+
 ![CLI](src/images/screenshot.png)
