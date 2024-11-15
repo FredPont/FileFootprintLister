@@ -24,7 +24,7 @@ Usage :
 
     	number of CPUs for parallel file processing (default 8).
       The optimal number of CPU depends on the CPU and disk speed. 
-      Top speed is generally obtained with 8-16 CPUs [see Benchmarks](# Benchmarks (v20241113)).
+      Top speed is generally obtained with 8-16 CPUs [see Benchmarks]
 
 example :
 
