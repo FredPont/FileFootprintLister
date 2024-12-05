@@ -46,7 +46,7 @@ func ParseDir(dir string, args Args) {
 	ch := make(chan struct{}, maxGoroutines)
 
 	// Create a file for writing
-	outfile, err := os.Create("results/" + args.Algorithm + "_" + DatePrefix("output.tsv"))
+	outfile, err := os.Create("results/" + args.Algorithm + "_" + DatePrefix(FormatName(dir)+".tsv"))
 	if err != nil {
 		log.Println(err)
 	}
