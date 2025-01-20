@@ -1,2 +1,5 @@
+# Strings to Exclude from file path
+# one string per line
+# if the string is found in the file path, the file will be excluded from the snapshot
 .git
 ~snapshot
