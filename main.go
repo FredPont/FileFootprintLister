@@ -21,6 +21,7 @@ package main
 import (
 	conf "FileFootprintLister/src/configuration"
 	fileutil "FileFootprintLister/src/fileutil"
+	"FileFootprintLister/src/global"
 	"flag"
 	"fmt"
 	"time"
@@ -31,9 +32,11 @@ func main() {
 
 	t0 := time.Now()
 	args := parseARG()
-	fmt.Println(args)
+	fmt.Println("Parameters : ", args)
 
 	allDirPath := conf.ReadAllPath()
+
+	fmt.Println("Path containing the folowing strings will be excluded : ", global.Exclude)
 
 	// start a new goroutine that runs the spinner function
 	// Create a channel called stop
