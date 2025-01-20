@@ -26,8 +26,10 @@ import (
 )
 
 // Declare a global variable
+// Exclude is a slice of string that will hold the list of directories to exclude
 var Exclude = ReadExclude()
 
+// ReadExclude reads the exclude.csv file and returns a slice of string to exclude
 func ReadExclude() []string {
 	// Open the CSV file
 	file, err := os.Open("config/exclude.csv")
