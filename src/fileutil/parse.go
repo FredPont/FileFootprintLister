@@ -19,12 +19,14 @@
 package fileutil
 
 import (
+	"FileFootprintLister/src/global"
 	"encoding/csv"
 	"fmt"
 	"io/fs"
 	"log"
 	"os"
 	"path/filepath"
+	"strings"
 	"sync"
 	"time"
 )
@@ -55,6 +57,15 @@ func ParseDir(dir string, args Args) {
 	err = filepath.WalkDir(dir, func(path string, info os.DirEntry, err error) error {
 		if err != nil {
 			return err
+		}
+
+		// skip excluded directories
+		//excludedDirs := []string{"~snapshot", ".git"} // Directories to exclude
+		excludedDirs := global.Exclude // Directories to exclude
+		for _, dir := range excludedDirs {
+			if strings.Contains(path, dir) {
+				return filepath.SkipDir
+			}
 		}
 
 		// Process the file or directory here

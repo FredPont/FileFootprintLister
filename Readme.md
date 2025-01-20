@@ -9,6 +9,8 @@ Lists can be compared using [CompareFootprintLists](https://github.com/FredPont/
 
 # Quick start
 - edit the config/path.csv file
+- to exclude some files or directories, edit the config/exclude.csv file : one string to exclude in paths per line.
+If this string is found in the path, this path will be skipped
 - enter one directory path to scan, per line (no header in this table)
 
 If the path contains spaces, commas... it can be necessary to quote the path : "my,path with, spaces" 
