@@ -106,6 +106,10 @@ func ParallelFootprintCalc(path string, fileInfo fs.FileInfo, outfile *os.File, 
 		switch args.Algorithm {
 		case "sha256":
 			signature = calcSHA256(path)
+		case "xxhash":
+			signature = calcXXHash64(path)
+		case "murmur":
+			signature = calcMurmurHash64(path)
 		default:
 			signature = calcMD5(path)
 		}
