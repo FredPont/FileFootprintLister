@@ -62,7 +62,7 @@ func main() {
 // parse arg of the command line and return the argument struct
 func parseARG() fileutil.Args {
 	args := fileutil.Args{}
-	flag.StringVar(&args.Algorithm, "a", "md5", "algorithm to use. md5, xxhash, murmmur or sha256")
+	flag.StringVar(&args.Algorithm, "a", "md5", "algorithm to use. md5, xxhash, murmmur, cityhash64, cityhash128, clickhouse64, clickhouse128 or sha256")
 	flag.IntVar(&args.NbCPU, "n", 8, "number of CPUs for parallel file processing")
 	flag.Parse()
 	return args

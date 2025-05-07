@@ -3,7 +3,7 @@
 </p>
 
 #  File Footprint Lister
-File Footprint Lister is a software to compute recursively files footprints (md5sum, sha256, xxhash64, murmmur64 ) of all files in a list of directories.
+File Footprint Lister is a software to compute recursively files footprints (md5sum, sha256, xxhash64, murmmur64, cityhash64, cityhash128, clickhouse64, clickhouse128) of all files in a list of directories.
 
 Lists can be compared using [CompareFootprintLists](https://github.com/FredPont/CompareFootprintLists)
 
@@ -31,17 +31,21 @@ Usage :
 
 example :
 
-./ffpl-x86_64_linux.bin             # md5 sum computation with 8 files processed in parallel by default
+./ffpl-x86_64_linux.bin                   # md5 sum computation with 8 files processed in parallel by default
 
-./ffpl-x86_64_linux.bin -n 14       # md5 sum computation with 14 files processed in parallel
+./ffpl-x86_64_linux.bin -n 14             # md5 sum computation with 14 files processed in parallel
 
-./ffpl-x86_64_linux.bin -a md5      # md5 sum computation
+./ffpl-x86_64_linux.bin -a md5            # md5 sum computation
 
-./ffpl-x86_64_linux.bin -a sha256   # sha256 sum computation
+./ffpl-x86_64_linux.bin -a sha256         # sha256 sum computation
 
-./ffpl-x86_64_linux.bin -a xxhash   # xxhash64 sum computation
+./ffpl-x86_64_linux.bin -a xxhash         # xxhash64 sum computation
 
-./ffpl-x86_64_linux.bin -a murmur   # murmur64 sum computation
+./ffpl-x86_64_linux.bin -a murmur         # murmur64 sum computation
+
+./ffpl-x86_64_linux.bin -a cityHash64     # cityhash64 sum computation
+
+./ffpl-x86_64_linux.bin -a clickhouse64   # clickhouse64 sum computation
 ```
 - the result tables in TSV are in the result directory. The output table has 3 columns : 
   - footprint
