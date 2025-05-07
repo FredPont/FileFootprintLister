@@ -40,7 +40,7 @@ func calcClickHouse64(filePath string) string {
 		log.Fatalf("Failed to read file: %v", err)
 	}
 
-	// Compute CityHash
+	// Compute clickhouse hash
 	hash64 := city.CH64(data)
 
 	cityHash := fmt.Sprintf("%x", hash64)
@@ -53,7 +53,7 @@ func calcClickHouse128(filePath string) string {
 		log.Fatalf("Failed to read file: %v", err)
 	}
 
-	// Compute CityHash
+	// Compute clickhouse hash
 	hash128 := city.CH128(data)
 
 	cityHash := fmt.Sprintf("%x", hash128)
