@@ -21,7 +21,7 @@ Usage :
 
   -a string
 
-        algorithm to use. md5, xxhash, murmmur or sha256 (default "md5")
+        algorithm to use. md5, xxhash, murmmur, cityhash64, cityhash128, clickhouse64, clickhouse128 or sha256 (default "md5")
 
   -n int
 
