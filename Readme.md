@@ -67,6 +67,10 @@ example :
 
 Speed : 7.4 files/sec - 9.2 GB/min
 
+![ALGO](src/benchmark/boxplot.png)
+
 # ScreenShots
 
 ![CLI](src/images/screenshot.png)
+
+!
