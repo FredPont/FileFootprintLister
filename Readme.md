@@ -43,7 +43,7 @@ example :
 
 ./ffpl-x86_64_linux.bin -a murmur         # murmur64 sum computation
 
-./ffpl-x86_64_linux.bin -a cityHash64     # cityhash64 sum computation
+./ffpl-x86_64_linux.bin -a cityhash64     # cityhash64 sum computation
 
 ./ffpl-x86_64_linux.bin -a clickhouse64   # clickhouse64 sum computation
 ```
