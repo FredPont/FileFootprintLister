@@ -34,21 +34,24 @@ Usage :
 
 example :
 
-./ffpl-x86_64_linux.bin                   # md5 sum computation with 8 files processed in parallel by default
+./ffpl-x86_64_linux.bin                         # md5 sum computation with 8 files processed in parallel by default
 
-./ffpl-x86_64_linux.bin -n 14             # md5 sum computation with 14 files processed in parallel
+./ffpl-x86_64_linux.bin -n 14                   # md5 sum computation with 14 files processed in parallel
 
-./ffpl-x86_64_linux.bin -a md5            # md5 sum computation
+./ffpl-x86_64_linux.bin -a md5                  # md5 sum computation
 
-./ffpl-x86_64_linux.bin -a sha256         # sha256 sum computation
+./ffpl-x86_64_linux.bin -a sha256               # sha256 sum computation
 
-./ffpl-x86_64_linux.bin -a xxhash         # xxhash64 sum computation
+./ffpl-x86_64_linux.bin -a xxhash               # xxhash64 sum computation
 
-./ffpl-x86_64_linux.bin -a murmur         # murmur64 sum computation
+./ffpl-x86_64_linux.bin -a murmur               # murmur64 sum computation
 
-./ffpl-x86_64_linux.bin -a cityhash64     # cityhash64 sum computation
+./ffpl-x86_64_linux.bin -a cityhash64           # cityhash64 sum computation
 
-./ffpl-x86_64_linux.bin -a clickhouse64   # clickhouse64 sum computation
+./ffpl-x86_64_linux.bin -a clickhouse64         # clickhouse64 sum computation
+
+./ffpl-x86_64_linux.bin -a sha256 -n 18 -f 5000 # sha256 sum computation with 18 files processed in parallel and 5000 files processed before flushing the write buffer
+
 ```
 - the result tables in TSV are in the result directory. The output table has 3 columns : 
   - footprint
