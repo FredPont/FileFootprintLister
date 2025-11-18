@@ -65,6 +65,8 @@ example :
 - sha256 sum calculation
 - murmur64 sum calculation
 - xxhash64 sum calculation
+- cityhash64, cityhash128  sum calculation
+- clickhouse64, clickhouse128  sum calculation
 - TSV output with 3 columns signatures, name and path
 - statically compiled (written in Go), nothing to install 
 
