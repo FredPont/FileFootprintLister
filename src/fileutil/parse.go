@@ -30,14 +30,10 @@ import (
 	"time"
 )
 
-var (
-	mutex sync.Mutex
-)
-
-// Args holds the argument of the software (md5, sha256)
 type Args struct {
-	Algorithm string
-	NbCPU     int
+	Algorithm string // file footprint algo
+	NbCPU     int    // nb of threads
+	NbLines   int    //nb of line writen to file before flush
 }
 
 func ParseDir(dir string, args Args) {
@@ -49,11 +45,17 @@ func ParseDir(dir string, args Args) {
 	}
 	defer outfile.Close()
 
+	writer := csv.NewWriter(outfile)
+	writer.Comma = '\t' // Tab delimiter
+
 	// Channel of files to process
-	filesCh := make(chan string, 1024)
+	filesCh := make(chan string, 8192)
+	// Channel for hash results
+	resultsCh := make(chan []string, 8192)
+
 	var wg sync.WaitGroup
 
-	// Start worker goroutines
+	// Start worker goroutines for hash calculation
 	for i := 0; i < args.NbCPU; i++ {
 		wg.Add(1)
 		go func() {
@@ -86,10 +88,31 @@ func ParseDir(dir string, args Args) {
 					signature = calcMD5(path)
 				}
 
-				writeToCSV(outfile, []string{signature, fileInfo.Name(), path})
+				// Send result to writer
+				resultsCh <- []string{signature, fileInfo.Name(), path}
 			}
 		}()
 	}
+
+	// Writer goroutine (flush every 1024 lines)
+	writeWg := sync.WaitGroup{}
+	writeWg.Add(1)
+	go func() {
+		defer writeWg.Done()
+		lineCount := 0
+		for data := range resultsCh {
+			if err := writer.Write(data); err != nil {
+				fmt.Printf("Error writing to CSV: %v\n", err)
+			}
+			lineCount++
+			if lineCount >= args.NbLines {
+				writer.Flush()
+				lineCount = 0
+			}
+		}
+		// Final flush to ensure all is written
+		writer.Flush()
+	}()
 
 	// Walk directory and send files to channel
 	err = filepath.WalkDir(dir, func(path string, d os.DirEntry, err error) error {
@@ -97,7 +120,6 @@ func ParseDir(dir string, args Args) {
 			return err
 		}
 		if d.IsDir() {
-			// Optionally handle exclude dirs!
 			for _, ex := range global.Exclude {
 				if strings.Contains(path, ex) {
 					return filepath.SkipDir
@@ -115,25 +137,8 @@ func ParseDir(dir string, args Args) {
 
 	close(filesCh)
 	wg.Wait()
-}
-
-// writeToCSV write data to file concurrently
-func writeToCSV(file *os.File, data []string) {
-
-	// Lock the mutex to ensure exclusive access to the file
-	mutex.Lock()
-	defer mutex.Unlock()
-
-	writer := csv.NewWriter(file)
-	writer.Comma = '\t' // Set the delimiter to tab
-	defer writer.Flush()
-
-	// Write the data to the CSV file
-	if err := writer.Write(data); err != nil {
-		fmt.Printf("Error writing to CSV: %v\n", err)
-		return
-	}
-
+	close(resultsCh)
+	writeWg.Wait()
 }
 
 func GetFileAndPath(fullPath string) (string, string) {
@@ -142,7 +147,6 @@ func GetFileAndPath(fullPath string) (string, string) {
 	return dir, fileName
 }
 
-// DatePrefix, prefix a string with current date and time
 func DatePrefix(name string) string {
 	return time.Now().Format("2006-01-02_150405_") + name
 }

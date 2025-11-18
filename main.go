@@ -64,6 +64,7 @@ func parseARG() fileutil.Args {
 	args := fileutil.Args{}
 	flag.StringVar(&args.Algorithm, "a", "md5", "algorithm to use. md5, xxhash, murmmur, cityhash64, cityhash128, clickhouse64, clickhouse128 or sha256")
 	flag.IntVar(&args.NbCPU, "n", 8, "number of CPUs for parallel file processing")
+	flag.IntVar(&args.NbLines, "f", 1024, "number of files processed before flushing the write buffer")
 	flag.Parse()
 	return args
 }
