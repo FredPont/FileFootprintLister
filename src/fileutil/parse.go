@@ -22,7 +22,6 @@ import (
 	"FileFootprintLister/src/global"
 	"encoding/csv"
 	"fmt"
-	"io/fs"
 	"log"
 	"os"
 	"path/filepath"
@@ -42,90 +41,80 @@ type Args struct {
 }
 
 func ParseDir(dir string, args Args) {
-	var wg sync.WaitGroup
-	maxGoroutines := args.NbCPU
-	// create a channel with the max number of job allowed
-	ch := make(chan struct{}, maxGoroutines)
-
-	// Create a file for writing
+	// Setup output file
 	outfile, err := os.Create("results/" + args.Algorithm + "_" + DatePrefix(FormatName(dir)+".tsv"))
 	if err != nil {
 		log.Println(err)
+		return
 	}
 	defer outfile.Close()
 
-	err = filepath.WalkDir(dir, func(path string, info os.DirEntry, err error) error {
-		if err != nil {
-			return err
-		}
+	// Channel of files to process
+	filesCh := make(chan string, 1024)
+	var wg sync.WaitGroup
 
-		// skip excluded directories
-		//excludedDirs := []string{"~snapshot", ".git"} // Directories to exclude
-		excludedDirs := global.Exclude // Directories to exclude
-		for _, dir := range excludedDirs {
-			if strings.Contains(path, dir) {
-				return filepath.SkipDir
+	// Start worker goroutines
+	for i := 0; i < args.NbCPU; i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			for path := range filesCh {
+				fileInfo, err := os.Stat(path)
+				if err != nil || fileInfo.IsDir() {
+					continue
+				}
+
+				signature := ""
+				switch args.Algorithm {
+				case "sha256":
+					signature = calcSHA256(path)
+				case "xxhash":
+					signature = calcXXHash64(path)
+				case "murmur":
+					signature = calcMurmurHash64(path)
+				case "cityhash64":
+					signature = calcCityHash64(path)
+				case "cityhash128":
+					signature = calcCityHash128(path)
+				case "clickhouse64":
+					signature = calcClickHouse64(path)
+				case "clickhouse128":
+					signature = calcClickHouse128(path)
+				case "md5":
+					signature = calcMD5(path)
+				default:
+					signature = calcMD5(path)
+				}
+
+				writeToCSV(outfile, []string{signature, fileInfo.Name(), path})
 			}
-		}
+		}()
+	}
 
-		// Process the file or directory here
-		file, err := os.Open(path)
+	// Walk directory and send files to channel
+	err = filepath.WalkDir(dir, func(path string, d os.DirEntry, err error) error {
 		if err != nil {
 			return err
 		}
-		defer file.Close()
-
-		fileInfo, err := file.Stat()
-		if err != nil {
-			return err
+		if d.IsDir() {
+			// Optionally handle exclude dirs!
+			for _, ex := range global.Exclude {
+				if strings.Contains(path, ex) {
+					return filepath.SkipDir
+				}
+			}
+			return nil
 		}
-
-		wg.Add(1) // Increment the WaitGroup counter
-		ch <- struct{}{}
-		go ParallelFootprintCalc(path, fileInfo, outfile, args, &wg, ch)
-
+		filesCh <- path
 		return nil
 	})
 
 	if err != nil {
-		fmt.Println("Error:", err)
+		fmt.Println("WalkDir Error:", err)
 	}
 
-	wg.Wait() // Wait for all goroutines to finish
-
-}
-
-func ParallelFootprintCalc(path string, fileInfo fs.FileInfo, outfile *os.File, args Args, wg *sync.WaitGroup, ch chan struct{}) {
-	defer func() {
-		<-ch // get the token back to free up a slot
-		wg.Done()
-	}()
-	if !fileInfo.IsDir() {
-		var signature string
-		// compute file footprint
-		switch args.Algorithm {
-		case "sha256":
-			signature = calcSHA256(path)
-		case "xxhash":
-			signature = calcXXHash64(path)
-		case "murmur":
-			signature = calcMurmurHash64(path)
-		case "cityhash64":
-			signature = calcCityHash64(path)
-		case "cityhash128":
-			signature = calcCityHash128(path)
-		case "clickhouse64":
-			signature = calcClickHouse64(path)
-		case "clickhouse128":
-			signature = calcClickHouse128(path)
-		case "md5":
-			signature = calcMD5(path)
-		default:
-			signature = calcMD5(path)
-		}
-
-		writeToCSV(outfile, []string{signature, fileInfo.Name(), path})
-	}
+	close(filesCh)
+	wg.Wait()
 }
 
 // writeToCSV write data to file concurrently
