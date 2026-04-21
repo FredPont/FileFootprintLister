@@ -24,7 +24,7 @@ Usage :
         algorithm to use. md5, xxhash, murmmur, cityhash64, cityhash128, clickhouse64, clickhouse128 or sha256 (default "md5")
 
   -f int
-    	number of files processed before flushing the write buffer (default 1024)
+    	Number of result rows buffered before flushing to disk (default 1024)
 
   -n int
 
