@@ -33,7 +33,8 @@ func TestCalcMD5(t *testing.T) {
 	}
 	for i, tc := range tests {
 		t.Run(fmt.Sprintf("Index=%d", i), func(t *testing.T) {
-			got := calcMD5(tc.file)
+			//got := calcMD5(tc.file)
+			got := computeHash(tc.file, "md5")
 			if got != tc.want {
 				t.Fatalf("got %v; want %v", got, tc.want)
 			} else {
@@ -53,7 +54,8 @@ func TestCalSHA256(t *testing.T) {
 	}
 	for i, tc := range tests {
 		t.Run(fmt.Sprintf("Index=%d", i), func(t *testing.T) {
-			got := calcSHA256(tc.file)
+			//got := calcSHA256(tc.file)
+			got := computeHash(tc.file, "sha256")
 			if got != tc.want {
 				t.Fatalf("got %v; want %v", got, tc.want)
 			} else {
